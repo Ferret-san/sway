@@ -154,7 +154,7 @@ jobs:
       - name: Update project cargo manifest with workspace
         run: |
           echo "
-          
+
           [workspace]" >> test-proj/Cargo.toml
       - name: Build test project
         run: forc build --path test-proj
@@ -662,12 +662,6 @@ jobs:
             target: aarch64-apple-darwin
             arch: arm64
             svm_target_platform: macosx-aarch64
-          # FIXME: Have no idea what to do on a Windows machine <(-_-<)
-          # - os: windows-latest
-          #   platform: win32
-          #   target: x86_64-pc-windows-msvc
-          #   arch: amd64
-          #   svm_target_platform: macosx-amd64
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
@@ -709,20 +703,9 @@ jobs:
           ARCH: ${{ matrix.job.arch }}
         run: |
           ZIP_FILE_NAME=forc.${{ env.PLATFORM_NAME }}_${{ env.ARCH }}.gz
-          if [ "${{ env.PLATFORM_NAME }}" == "linux" ]; then
-            echo "ZIP_FILE_NAME=$ZIP_FILE_NAME" >> $GITHUB_ENV
-            gzip -c $(which forc) > ./$ZIP_FILE_NAME
-          elif [ "${{ env.PLATFORM_NAME }}" == "darwin" ]; then
-            echo "ZIP_FILE_NAME=$ZIP_FILE_NAME" >> $GITHUB_ENV
-            gzip -c $(which forc) > ./$ZIP_FILE_NAME
-          else
-            # FIXME: Have no idea what to do on a Windows machine <(-_-<)
-            ZIP_FILE_NAME=forc_${{ env.PLATFORM_NAME }}_${{ env.ARCH }}.zip
-            echo "ZIP_FILE_NAME=$ZIP_FILE_NAME" >> $GITHUB_ENV
-            cd ./forcbin/out/debug
-            7z a -tzip $ZIP_FILE_NAME
-            mv ${{ env.ZIP_FILE_NAME }} ../../../
-          fi
+          echo "ZIP_FILE_NAME=$ZIP_FILE_NAME" >> $GITHUB_ENV
+          gzip -c $(which forc) > ./$ZIP_FILE_NAME
+
       - name: Archive binaries
         uses: actions/upload-release-asset@v1
         env:
