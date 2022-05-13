@@ -128,9 +128,12 @@ impl Engine {
                     }
                 };
 
-                // Cast the expected type to the received type.
-                self.slab
-                    .replace(received, received_info, expected_info.clone());
+                // we don't want to do a slab replacement here, because
+                // we don't want to overwrite the original numeric type with the new one.
+                // This isn't actually inferencing the original type to the new numeric type.
+                // We just want to say "up until this point, this was a u32 (eg) and now it is a
+                // u64 (eg)". If we were to do a slab replace here, we'd be saying "this was always a
+                // u64 (eg)".
                 (warnings, vec![])
             }
 
