@@ -40,6 +40,13 @@ const TX_WITNESSES_COUNT_OFFSET = 10312;
 const TX_RECEIPTS_ROOT_OFFSET = 10320;
 const TX_SCRIPT_START_OFFSET = 10352;
 
+/// Get the transaction i
+pub fn tx_id() -> b256 {
+    asm() {
+        zero: b256
+    }
+}
+
 /// Get the transaction type.
 pub fn tx_type() -> u8 {
     asm(r1, r2: TX_TYPE_OFFSET) {

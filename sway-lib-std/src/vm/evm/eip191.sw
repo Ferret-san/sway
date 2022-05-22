@@ -14,5 +14,5 @@ pub fn eip191_hash<T>(message: T) -> b256 {
     // Fuel uses SHA-256 for all hashing since it's standard
     let msg_hash = sha256(message);
     // Offset by 8, since the domain separator is padded by 8
-    keccak256_with_offset((domain_separator, msg_hash), 8)
+    keccak256_with_offset((DOMAIN_SEPARATOR, msg_hash), 8)
 }

@@ -1,0 +1,8 @@
+[project]
+authors = ["Diego Ferrer"]
+entry = "main.sw"
+license = "Apache-2.0"
+name = "metamask_predicate"
+
+[dependencies]
+std = { path = "../../sway-lib-std" }
