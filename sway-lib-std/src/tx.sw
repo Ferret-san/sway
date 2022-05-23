@@ -235,3 +235,28 @@ pub fn tx_output_amount(ptr: u32) -> u64 {
         r1: u64
     }
 }
+
+// NOTE: $is register is set to the start of the predicate bytecode in a transaction
+pub fn tx_predicate_length() -> u64 {
+    // get the predicate length
+    asm(r1: 16) {
+        sub r1 is r1; // let predicate_length = predicate byteCode - 32 bits
+        r1: u64
+    }
+}
+
+pub fn tx_predicate_data<T>() -> T {
+    // get the predicate length
+    let mut predicate_byte_length = tx_predicate_length() * 4;
+
+    // if the number of instructions is odd, add 4,
+    // since odd instruction numbers are padded to a multiple of 8
+    if predicate_byte_length % 8 != 0 {
+        predicate_byte_length = predicate_byte_length + 4;
+    }
+
+    asm(r1: predicate_byte_length) {
+        add r1 is r1; // let predicateData = predicate_byte_length
+        r1: T
+    }
+}
